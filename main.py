@@ -4,7 +4,8 @@ import os
 import time
 import pyautogui  # This module is used for simulating mouse clicks
 
-time.sleep(2)
+# Initial delay to allow time for setup
+time.sleep(20)
 recreate_folders()
 
 # Define the input and output folders.
@@ -18,7 +19,7 @@ def press_button(image_path):
     location = pyautogui.locateCenterOnScreen(image_path)
     if location:
         pyautogui.click(location)
-        time.sleep(0.5)  # Wait briefly after clicking
+        time.sleep(5)  # Wait after clicking
         print(f"Clicked on {image_path} at {location}.")
     else:
         print(f"Button {image_path} not found on screen.")
@@ -33,17 +34,17 @@ for root, dirs, files in os.walk(input_folder):
         os.makedirs(output_dir)
     
     for filename in files:
-        # Optional: Pause for a few seconds to switch to a relevant window
-        time.sleep(1)
+        # Pause to switch to the relevant window
+        time.sleep(10)
         # Press Ctrl + A
         pyautogui.hotkey('ctrl', 'a')
-        time.sleep(1)
+        time.sleep(10)
         pyautogui.hotkey('backspace')
-        time.sleep(1)
+        time.sleep(10)
         pyautogui.moveTo(1200, 500)
-        time.sleep(2)
+        time.sleep(20)
         pyautogui.doubleClick()
-        time.sleep(2)
+        time.sleep(20)
         # Process only image files.
         if filename.lower().endswith((".png", ".jpg", ".jpeg", ".bmp", ".gif")):
             input_path = os.path.join(root, filename)
@@ -52,48 +53,31 @@ for root, dirs, files in os.walk(input_folder):
             # Determine the base name (without extension) in lower case.
             base_name = os.path.splitext(filename)[0].lower()
             
-            # If the file name is selectquote or selectrepost, click on quote.png before processing.
             if base_name in ["selectquote", "selectrepost"]:
-                quotepath = os.path.join(output_folder, "quotetweetfromrange","quote.png")
-                press_button(quotepath)
-                time.sleep(2)
-                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
-                time.sleep(2)
-            # If the file name is replyprompt, click on reply.png before processing.
-            elif base_name == "replyprompt":
-                replypath = os.path.join(output_folder, "replyspitter","reply.png")
-                press_button(replypath)
-                time.sleep(2)
-                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
-                time.sleep(2)
-
-            elif base_name == "replybutton":
-                # Use the same reply.png path (assuming this is the same button image)
-                replypath = os.path.join(output_folder, "replyspitter", "reply.png")
-                press_button(replypath)
-                time.sleep(2)
-                
-                # Move cursor or make any adjustment if needed
-                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
-                time.sleep(2)
-                
-                # Type some text after pressing the reply button
-                pyautogui.write("pp", interval=0.05)
-                time.sleep(1)
-            elif base_name == "quotebutton":
-                # Path to your quote button image (change subfolder/filename as needed)
                 quotepath = os.path.join(output_folder, "quotetweetfromrange", "quote.png")
                 press_button(quotepath)
-                time.sleep(2)       
-    
-    # Let's assume you need to select the quoted text (this is highly app-dependent)
-    # For example, press_button on "quote.png" might open a quote snippet. 
-    # Then maybe we select all or do a certain hotkey:
-    # pyautogui.hotkey('ctrl', 'a')  # or any other combination
-    
-    # Type your comment on the quote
+                time.sleep(20)
+                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
+                time.sleep(20)
+            elif base_name == "replyprompt":
+                replypath = os.path.join(output_folder, "replyspitter", "reply.png")
+                press_button(replypath)
+                time.sleep(20)
+                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
+                time.sleep(20)
+            elif base_name == "replybutton":
+                replypath = os.path.join(output_folder, "replyspitter", "reply.png")
+                press_button(replypath)
+                time.sleep(20)
+                pyautogui.moveTo(pyautogui.position()[0] - 200, pyautogui.position()[1])
+                time.sleep(20)
                 pyautogui.write("pp", interval=0.05)
-
+                time.sleep(10)
+            elif base_name == "quotebutton":
+                quotepath = os.path.join(output_folder, "quotetweetfromrange", "quote.png")
+                press_button(quotepath)
+                time.sleep(20)
+                pyautogui.write("pp", interval=0.05)
 
             # Now process the image.
             if find_template_in_screenshot(input_path, output_path):
