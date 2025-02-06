@@ -68,7 +68,7 @@ def find_template_in_screenshot(template_path, output_path="found_region.png", t
     # Apply Lowe's ratio test to filter out weak matches.
     good_matches = [m for m, n in matches if m.distance < 0.7 * n.distance]
 
-    MIN_MATCH_COUNT = 7  # Adjust this value based on your requirements.
+    MIN_MATCH_COUNT = 6  # Adjust this value based on your requirements.
     if len(good_matches) < MIN_MATCH_COUNT:
         print(f"Not enough good matches found ({len(good_matches)}/{MIN_MATCH_COUNT}).")
         return False
